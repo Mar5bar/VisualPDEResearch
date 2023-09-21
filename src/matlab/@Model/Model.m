@@ -1,8 +1,19 @@
 classdef Model < handle
 
     properties
-        Value = 1;
-        Solver;
+        Sim;
+        Parameters = struct([]);
+        NumSpecies = 1;
+        Dimension = 1;
+        SideLength = 1
+        BCs = ["periodic"];
+    end
+
+    properties (Access = protected)
+        % Set by buildSim. All parameters will be substituted in, so that these
+        % are ready for str2func.
+        DiffCoeffsStrs;
+        ForcingStrs;
     end
 
     methods
@@ -11,15 +22,13 @@ classdef Model < handle
 
         end
 
-       load(vm,filepath)
+        load(vm,filepath)
 
-       function solve(vm)
-            if (any(contains([class(vm.Solver);superclasses(vm.Solver)],"Solver")))
-                vm.Solver.solve();
-            else
-                error("Solver not set.")
-            end
-       end
+        buildSim(vm)
+
+        function solve(vm)
+            vm.Sim.run();
+        end
     end
 
 end
