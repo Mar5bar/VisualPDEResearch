@@ -9,13 +9,6 @@ classdef Model < handle
         BCs = ["periodic"];
     end
 
-    properties (Access = protected)
-        % Set by buildSim. All parameters will be substituted in, so that these
-        % are ready for str2func.
-        DiffCoeffsStrs;
-        ForcingStrs;
-    end
-
     methods
         % Constructor
         function vm = Model(filepath)
